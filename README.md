@@ -32,7 +32,7 @@ There are 4 methods in the `SmartDelimiterPredictor` class.
 * `findFunctionForParenthesisAt(int index, String[] expression)` : Same as above but for parenthesis.
 
 ## Example
-Check out an example of how it's supposed to be used [here](https://raw.githubusercontent.com/TotallyNotChase/Smart-Delimiter-Predictor/master/SmartDelimiterPredictor.jar)
+Check out an example of how it's supposed to be used [here](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/Demo/src/SDPdemo.java)
 
 ![image](https://user-images.githubusercontent.com/44284917/72676531-2eb18200-3ab8-11ea-9314-f881a7bf7704.png)
 
