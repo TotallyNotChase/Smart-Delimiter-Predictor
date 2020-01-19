@@ -6,7 +6,7 @@ A Java Class that can autocomplete delimiters and tell you exactly which functio
 ## Installation
 The only file in this repo you need is the `SmartDelimiterPredictor.jar`. You can get this through 2 methods -
 * You can download the whole repo as a zip and then extract the `.jar` file
-* You can open `SmartDelimiterPredictor.jar` in [raw](https://raw.githubusercontent.com/TotallyNotChase/Smart-Delimiter-Predictor/master/SmartDelimiterPredictor.jar) mode and use your browser's `Save as..` option to save it as a `.jar` file
+* You can open `SmartDelimiterPredictor.jar` in [raw](https://raw.githubusercontent.com/TotallyNotChase/Smart-Delimiter-Predictor/master/SmartDelimiterPredictor.jar) mode, this will download the `.jar` file.
 * You can run the following command to download it directly from terminal.
 
   `curl -o SmartDelimiterPredictor.jar https://raw.githubusercontent.com/TotallyNotChase/Smart-Delimiter-Predictor/master/SmartDelimiterPredictor.jar`
@@ -39,6 +39,6 @@ Check out an example of how it's supposed to be used [here](https://raw.githubus
 ## How does it work?
 Basically I got the idea for the algo from thinking *step by step* about how the human brain does it in the first place. The code has an explanation for all the algos.
 
-Check out the [source code](https://raw.githubusercontent.com/TotallyNotChase/Smart-Delimiter-Predictor/master/SmartDelimiterPredictor.jar) as well as the [example](https://raw.githubusercontent.com/TotallyNotChase/Smart-Delimiter-Predictor/master/SmartDelimiterPredictor.jar) and follow along!
+Check out the [source code](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/src/com/github/chase/smartdelimiter/SmartDelimiterPredictor.java) as well as the [example](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/Demo/src/SDPdemo.java) and follow along!
 
 As always, using the algo yourself and tracking the variables will make it easier to understand.
