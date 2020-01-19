@@ -15,6 +15,13 @@ Now you can add this jar as an external archive to any of your projects and impo
 
 `import com.github.chase.smartdelimiter.SmartDelimiterPredictor;`
 
+## Features
+* Well-documented code for you to follow along!
+* Super modular! Can support *any delimiters*. The default supported delimiters are `(`\\`)`, `{`\\`}`, and `[`\\`]`
+  However, you can add your own delimiter pairs anytime, in the **default constructor** of the class.
+  Simply add your desired delimiters in `delimiterPair` and `delimiterCount` maps [here]()!
+
+
 ## Usage
 First instantiate the class using:
 
@@ -22,14 +29,14 @@ First instantiate the class using:
 
 Then, you may call the available methods.
 
-There are 4 methods in the `SmartDelimiterPredictor` class.
+There are 2 methods in the `SmartDelimiterPredictor` class.
 * `closeDelimiters(String expression)` : Returns a string with all open delimiters in expression closed. If `expression` is `loge[sin(2+56^{58*cos(log0[` it will return `loge[sin(2+56^{58*cos(log0[])})]`
 
-* `findFunctionForBrackettAt(int index, String[] expression)` : Returns the function associated with the closing brackett at given index. If `expression` is ``["loge", "[", "sin", "[", "2", "+", "56", "^", "{", "58", "*", "cos", "[", "log0", "[", "23", "]", "]", "}", "]", "]"]`` and if the `index` is 17 it will return cos
-
-* `findFunctionForBraceAt(int index, String[] expression)` : Same as above but for braces.
-
-* `findFunctionForParenthesisAt(int index, String[] expression)` : Same as above but for parenthesis.
+* `findFunctionForDelimiterAt(int index, String[] expression, String delimiter)` : Returns the function associated with the given delimiter (open or closed) at given index.
+  If `expression` is ``["loge", "[", "sin", "[", "2", "+", "56", "^", "{", "58", "*", "cos", "[", "log0", "[", "23", "]", "]", "}", "]", "]"]``
+  and if the `index` is 17
+  and if the delimiter is either `[` or `]`.
+  it will return `cos`
 
 Here is the **autocomplete** in action!
 

@@ -1,13 +1,57 @@
 package com.github.chase.smartdelimiter;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SmartDelimiterPredictor {
+
+    private Map<String, String> delimiterPair;
+    private Map<String, Integer> delimiterCount;
 
     public SmartDelimiterPredictor() {
         /**
          * Default Constructor
+         * Add more delimiters here if needed
          */
+        this.delimiterPair = new HashMap<String, String>();
+        this.delimiterCount = new HashMap<String, Integer>();
+        delimiterPair.put("(", ")");
+        delimiterPair.put("{", "}");
+        delimiterPair.put("[", "]");
+        delimiterCount.put("(", 0);
+        delimiterCount.put("{", 0);
+        delimiterCount.put("[", 0);
+        delimiterCount.put(")", 0);
+        delimiterCount.put("}", 0);
+        delimiterCount.put("]", 0);
+        cleanup();
+    }
+    
+    private void cleanup() {
+        this.delimiterCount.put("(", 0);
+        this.delimiterCount.put("{", 0);
+        this.delimiterCount.put("[", 0);
+        this.delimiterCount.put(")", 0);
+        this.delimiterCount.put("}", 0);
+        this.delimiterCount.put("]", 0);
+    }
+
+    private String[] getCorrespondingDelimiter(String delimiter) {
+        /**
+         * Returns a string array with delimiter pairs
+         * The 0th index contains the opening delimiter
+         * The 1st index contains the closing delimiter
+         */
+        if (this.delimiterPair.get(delimiter) != null) {
+            return new String[] {delimiter, this.delimiterPair.get(delimiter)};
+        }
+        for(String key: this.delimiterPair.keySet()) {
+            if (this.delimiterPair.get(key).contentEquals(delimiter)) {
+                return new String[] {key, delimiter};
+            }
+        }
+        throw new IllegalArgumentException("Invalid Delimiter");
     }
 
     public String closeDelimiters(String expression) {
@@ -18,143 +62,57 @@ public class SmartDelimiterPredictor {
          */
         StringBuilder resultstr = new StringBuilder(expression);
         String[] exparr = expression.split("");
-        int closingParentheses = 0;
-        int closingBraces = 0;
-        int closingBrackets = 0;
-        int openingParentheses = 0;
-        int opening_brace = 0;
-        int openingBrackets = 0;
+        String[] delimiterPair;
         int i = exparr.length - 1;
+        int count;
         while (i >= 0) {
             /**
              * Iterating in reverse through each character in the expression Trying to find
              * delimiters
              */
-            switch (exparr[i]) {
-            /**
-             * When an opening delimiter is found, a matching closing delimiter is appended
-             * to the expression if the number of opening delimiters is more than closing
-             * delimiters
-             */
-            /**
-             * When a closing delimiter is found it's appearance is recorded
-             */
-            case "(":
-                ++openingParentheses;
-                if (openingParentheses > closingParentheses) {
-                    resultstr.append(")");
-                    closingParentheses++;
+            count = this.delimiterCount.getOrDefault(exparr[i], -1);
+            if (count != -1) {
+                // If it finds a delimiter, it increments it's appearance count
+                this.delimiterCount.put(exparr[i], ++count);
+                delimiterPair = getCorrespondingDelimiter(exparr[i]);
+                if (this.delimiterCount.get(delimiterPair[0]) > this.delimiterCount.get(delimiterPair[1])) {
+                    /**
+                     * Then it checks if appearance count of the corresponding 
+                     * opening delimiter is greater than the closing delimiter
+                     * If the above statement is true, it'll append a closing delimiter
+                     */
+                    resultstr.append(delimiterPair[1]);
                 }
-                break;
-            case "{":
-                ++opening_brace;
-                if (opening_brace > closingBraces) {
-                    resultstr.append("}");
-                    closingBraces++;
-                }
-                break;
-            case "[":
-                ++openingBrackets;
-                if (openingBrackets > closingBrackets) {
-                    resultstr.append("]");
-                    closingBrackets++;
-                }
-                break;
-            case ")":
-                ++closingParentheses;
-                break;
-            case "}":
-                ++closingBraces;
-                break;
-            case "]":
-                ++closingBrackets;
-                break;
             }
             i--;
         }
+        cleanup();
         return resultstr.toString();
     }
 
-    public String findFunctionForBrackettAt(int index, String[] expression) {
+    public String findFunctionForDelimiterAt(int index, String[] expression, String delimiter) {
         /**
-         * Returns the function associated with the closing brackett at given index If
-         * expression is ["loge", "[", "sin", "[", "2", "+", "56", "^", "{", "58", "*",
-         * "cos", "[", "log0", "[", "23", "]", "]", "}", "]", "]"] and if the index is
-         * 17 it will return cos
+         * Returns the function associated with the closing delimiter at given index. 
+         * If the expression is ["loge", "[", "sin", "[", "2", "+", "56", "^", "{", "58", "*",
+         * "cos", "[", "log0", "[", "23", "]", "]", "}", "]", "]"] 
+         * and if the index is 17 
+         * and if delimiter is "]" or "[" 
+         * the function will return cos
          */
         expression = Arrays.copyOfRange(expression, 0, index + 1);
         int i = expression.length - 2; // Skip the first closing delimiter
-        int openBrackets = 0;
-        int closeBrackets = 0;
-        while (openBrackets <= closeBrackets) {
+        int openDelimiters = 0;
+        int closeDelimiters = 0;
+        String[] delimiterPair = getCorrespondingDelimiter(delimiter);
+        while (openDelimiters <= closeDelimiters) {
             /**
              * The expression's index is reduced until the number of opening delimiters is
              * greater than the number of closing delimiters
              */
-            switch (expression[i]) {
-            case "]":
-                closeBrackets++;
-                break;
-            case "[":
-                openBrackets++;
-                break;
-            }
-            i--;
-        }
-        // The end result of i is the index of the function
-        return expression[i].toString();
-    }
-
-    public String findFunctionForBraceAt(int index, String[] expression) {
-        /**
-         * Returns the function associated with the closing brace at given index If
-         * expression is ["loge", "{", "sin", "{", "2", "+", "56", "^", "[", "58", "*",
-         * "cos", "{", "log0", "{", "23", "}", "}", "]", "}", ")"] and if the index is
-         * 17 it will return cos
-         */
-        expression = Arrays.copyOfRange(expression, 0, index + 1);
-        int i = expression.length - 2; // Skip the first closing delimiter
-        int openBraces = 0;
-        int closeBraces = 0;
-        while (openBraces <= closeBraces) {
-            /**
-             * The expression's index is reduced until the number of opening delimiters is
-             * greater than the number of closing delimiters
-             */
-            switch (expression[i]) {
-            case "}":
-                closeBraces++;
-                break;
-            case "{":
-                openBraces++;
-                break;
-            }
-            i--;
-        }
-        // The end result of i is the index of the function
-        return expression[i].toString();
-    }
-
-    public String findFunctionForParenthesisAt(int index, String[] expression) {
-        /**
-         * Returns the function associated with the closing parenthesis at given index
-         * If expression is ["loge", "(", "sin", "(", "2", "+", "56", "^", "{", "58",
-         * "*", "cos", "(", "log0", "(", "23", ")", ")", "}", ")", ")"] and if the index
-         * is 17 it will return cos
-         */
-        expression = Arrays.copyOfRange(expression, 0, index + 1);
-        int i = expression.length - 2; // Skip the first closing delimiter
-        int openParentheses = 0;
-        int closeParentheses = 0;
-        while (openParentheses <= closeParentheses) {
-            // An Algorithm to find out the position of the corresponding function
-            switch (expression[i]) {
-            case ")":
-                closeParentheses++;
-                break;
-            case "(":
-                openParentheses++;
-                break;
+            if (expression[i].contentEquals(delimiterPair[0])) {
+                openDelimiters++;
+            } else if (expression[i].contentEquals(delimiterPair[1])) {
+                closeDelimiters++;
             }
             i--;
         }
