@@ -31,6 +31,18 @@ There are 4 methods in the `SmartDelimiterPredictor` class.
 
 * `findFunctionForParenthesisAt(int index, String[] expression)` : Same as above but for parenthesis.
 
+Here is the **autocomplete** in action!
+
+![Alt Text](https://thepracticaldev.s3.amazonaws.com/i/rgeqb9fmdlr69wspdpbo.gif)
+
+*note that although the frontend shows only parentheses, the backend uses different delimiters for different functions, so it still uses the exact same algorithm*
+
+And the **functionfinder**!
+
+![Alt Text](https://thepracticaldev.s3.amazonaws.com/i/jz5j9ragmt70m62ajvnd.gif)
+
+*notice that whenever I remove a closing delimiter using backspace, the program is able to tell which function region I just entered*
+
 ## Example
 Check out an example of how it's supposed to be used [here](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/Demo/src/SDPdemo.java)
 
@@ -38,6 +50,8 @@ Check out an example of how it's supposed to be used [here](https://github.com/T
 
 ## How does it work?
 Basically I got the idea for the algo from thinking *step by step* about how the human brain does it in the first place. The code has an explanation for all the algos.
+
+A detailed explanation can found [here](https://dev.to/totally_chase/how-is-the-human-brain-so-good-at-matching-delimiters-1o51)
 
 Check out the [source code](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/src/com/github/chase/smartdelimiter/SmartDelimiterPredictor.java) as well as the [example](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/Demo/src/SDPdemo.java) and follow along!
 
