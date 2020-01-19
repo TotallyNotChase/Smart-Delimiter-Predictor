@@ -19,8 +19,7 @@ Now you can add this jar as an external archive to any of your projects and impo
 * Well-documented code for you to follow along!
 * Super modular! Can support *any delimiters*. The default supported delimiters are `(`\\`)`, `{`\\`}`, and `[`\\`]`
   However, you can add your own delimiter pairs anytime, in the **default constructor** of the class.
-  Simply add your desired delimiters in `delimiterPair` and `delimiterCount` maps [here]()!
-
+  Simply add your desired delimiters in `delimiterPair` and `delimiterCount` maps [here](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/67456ca9281e00007e8d5e69e73c8b25a20c3dc5/src/com/github/chase/smartdelimiter/SmartDelimiterPredictor.java#L19)!
 
 ## Usage
 First instantiate the class using:
@@ -53,7 +52,7 @@ And the **functionfinder**!
 ## Example
 Check out an example of how it's supposed to be used [here](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/master/Demo/src/SDPdemo.java)
 
-![image](https://user-images.githubusercontent.com/44284917/72676531-2eb18200-3ab8-11ea-9314-f881a7bf7704.png)
+![image](https://user-images.githubusercontent.com/44284917/72686021-33a51e80-3b16-11ea-91f7-5400f778fc07.png)
 
 ## How does it work?
 Basically I got the idea for the algo from thinking *step by step* about how the human brain does it in the first place. The code has an explanation for all the algos.
