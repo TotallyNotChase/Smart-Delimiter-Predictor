@@ -18,23 +18,39 @@ Now you can add this jar as an external archive to any of your projects and impo
 ## Features
 * Well-documented code for you to follow along!
 * Super modular! Can support *any delimiters*. The default supported delimiters are `(`\\`)`, `{`\\`}`, and `[`\\`]`
-  However, you can add your own delimiter pairs anytime, in the **default constructor** of the class.
-  Simply add your desired delimiters in `delimiterPair` and `delimiterCount` maps [here](https://github.com/TotallyNotChase/Smart-Delimiter-Predictor/blob/67456ca9281e00007e8d5e69e73c8b25a20c3dc5/src/com/github/chase/smartdelimiter/SmartDelimiterPredictor.java#L19)!
+  However, you can add your own delimiter pairs anytime, by using `addDelimiterPair(String openingDelimiter, String closingDelimiter)`!
+  For instance if you wanted to add `<`/`>`, you'd simply do-
+  ```java
+  SmartDelimiterPredictor sdp = new SmartDelimiterPredictor();
+  sdp.addDelimiterPair("<", ">");
+  // Use other methods here!
+  ```
 
 ## Usage
 First instantiate the class using:
 
-`SmartDelimiterPredictor sdp = new SmartDelimiterPredictor();`
+```java
+SmartDelimiterPredictor sdp = new SmartDelimiterPredictor();
+```
 
 Then, you may call the available methods.
 
-There are 2 methods in the `SmartDelimiterPredictor` class.
-* `closeDelimiters(String expression)` : Returns a string with all open delimiters in expression closed. If `expression` is `loge[sin(2+56^{58*cos(log0[` it will return `loge[sin(2+56^{58*cos(log0[])})]`
+There are 3 methods in the `SmartDelimiterPredictor` class.
+* `addDelimiterPair(String openingDelimiter, String closingDelimiter)` : Add your desired delimiter pair if it does not already exist! See above for details.
+* `closeDelimiters(String expression)` : Returns a string with all open delimiters in     expression closed.
+
+  If `expression` is `loge[sin(2+56^{58*cos(log0[`
+
+  it will return `loge[sin(2+56^{58*cos(log0[])})]`
 
 * `findFunctionForDelimiterAt(int index, String[] expression, String delimiter)` : Returns the function associated with the given delimiter (open or closed) at given index.
+
   If `expression` is ``["loge", "[", "sin", "[", "2", "+", "56", "^", "{", "58", "*", "cos", "[", "log0", "[", "23", "]", "]", "}", "]", "]"]``
+
   and if the `index` is 17
+
   and if the delimiter is either `[` or `]`.
+
   it will return `cos`
 
 Here is the **autocomplete** in action!

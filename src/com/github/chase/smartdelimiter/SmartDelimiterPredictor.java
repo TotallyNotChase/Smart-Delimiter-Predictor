@@ -7,36 +7,25 @@ import java.util.Map;
 public class SmartDelimiterPredictor {
 
     private Map<String, String> delimiterPair;
-    private Map<String, Integer> delimiterCount;
+    
 
     public SmartDelimiterPredictor() {
         /**
          * Default Constructor
-         * Add more delimiters here if needed
          */
         this.delimiterPair = new HashMap<String, String>();
-        this.delimiterCount = new HashMap<String, Integer>();
         delimiterPair.put("(", ")");
         delimiterPair.put("{", "}");
         delimiterPair.put("[", "]");
-        delimiterCount.put("(", 0);
-        delimiterCount.put("{", 0);
-        delimiterCount.put("[", 0);
-        delimiterCount.put(")", 0);
-        delimiterCount.put("}", 0);
-        delimiterCount.put("]", 0);
-        cleanup();
     }
     
-    private void cleanup() {
-        this.delimiterCount.put("(", 0);
-        this.delimiterCount.put("{", 0);
-        this.delimiterCount.put("[", 0);
-        this.delimiterCount.put(")", 0);
-        this.delimiterCount.put("}", 0);
-        this.delimiterCount.put("]", 0);
+    public void addDelimiterPair(String openingDelimiter, String closingDelimiter) {
+        /**
+         * Add more delimiter pairs here
+         */
+        delimiterPair.put(openingDelimiter, closingDelimiter);
     }
-
+    
     private String[] getCorrespondingDelimiter(String delimiter) {
         /**
          * Returns a string array with delimiter pairs
@@ -60,6 +49,7 @@ public class SmartDelimiterPredictor {
          * is "loge[sin(2+56^{58*cos(log0[" it will return
          * "loge[sin(2+56^{58*cos(log0[])})]"
          */
+        Map<String, Integer> delimiterCount = new HashMap<String, Integer>();
         StringBuilder resultstr = new StringBuilder(expression);
         String[] exparr = expression.split("");
         String[] delimiterPair;
@@ -70,23 +60,24 @@ public class SmartDelimiterPredictor {
              * Iterating in reverse through each character in the expression Trying to find
              * delimiters
              */
-            count = this.delimiterCount.getOrDefault(exparr[i], -1);
-            if (count != -1) {
-                // If it finds a delimiter, it increments it's appearance count
-                this.delimiterCount.put(exparr[i], ++count);
+            try {
                 delimiterPair = getCorrespondingDelimiter(exparr[i]);
-                if (this.delimiterCount.get(delimiterPair[0]) > this.delimiterCount.get(delimiterPair[1])) {
-                    /**
-                     * Then it checks if appearance count of the corresponding 
-                     * opening delimiter is greater than the closing delimiter
-                     * If the above statement is true, it'll append a closing delimiter
-                     */
+                if (delimiterCount.get(exparr[i]) == null) {
+                    delimiterCount.put(exparr[i], 1);
+                    count = 1;
+                } else {
+                    count = delimiterCount.get(exparr[i]);
+                    delimiterCount.put(exparr[i], ++count);
+                }
+                if (exparr[i].equals(delimiterPair[0]) && (count > delimiterCount.getOrDefault(delimiterPair[1], 0))) {
                     resultstr.append(delimiterPair[1]);
                 }
+            } catch (IllegalArgumentException e) {
+                // exparr[i] is not in the recorded delimiter array
+                // Safe to ignore
             }
             i--;
         }
-        cleanup();
         return resultstr.toString();
     }
 
